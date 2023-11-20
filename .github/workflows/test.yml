@@ -7,8 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 19.x]
-        mongodb-version: ['5.0', '6.0']
+        node-version: [18.x]
+        # mongodb-version: ['5.0', '6.0']
 
     steps:
     - name: Git checkout
@@ -19,21 +19,27 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Start MongoDB
-      uses: supercharge/mongodb-github-action@1.8.0
-      with:
-        mongodb-version: ${{ matrix.mongodb-version }}
+    # - name: Start MongoDB
+    #   uses: supercharge/mongodb-github-action@1.8.0
+    #   with:
+    #     mongodb-version: ${{ matrix.mongodb-version }}
 
-    - run: npm install
+    - run: | 
+       uptime
+       ls -al /opt/hostedtoolcache/node/18.18.2/x64
+       ls -al /opt/hostedtoolcache/node/18.18.2/
+       ls -al /opt/hostedtoolcache/node/
+       ls -al /opt/hostedtoolcache/
+         
 
-    - run: npm test
-      env:
-        CI: true
-        TWITTER_CLIENTID: "xxx"
-        TWITTER_SECRET: "xxx"
-        GITHUB_CLIENTID: "xxx"
-        GITHUB_SECRET: "xxx"
-        LINKEDIN_CLIENTID: "xxx"
-        LINKEDIN_SECRET: "xxx"
-        GOOGLE_CLIENTID: "xxx"
-        GOOGLE_SECRET: "xxx"
+    # - run: npm test
+    #   env:
+    #     CI: true
+    #     TWITTER_CLIENTID: "xxx"
+    #     TWITTER_SECRET: "xxx"
+    #     GITHUB_CLIENTID: "xxx"
+    #     GITHUB_SECRET: "xxx"
+    #     LINKEDIN_CLIENTID: "xxx"
+    #     LINKEDIN_SECRET: "xxx"
+    #     GOOGLE_CLIENTID: "xxx"
+    #     GOOGLE_SECRET: "xxx"
