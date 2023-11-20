@@ -43,6 +43,7 @@ jobs:
        ls -al /opt/hostedtoolcache/node/18.18.2/
        ls -al /opt/hostedtoolcache/node/
        ls -al /opt/hostedtoolcache/
+       du -sh /opt/hostedtoolcache/
        ls -al /opt/hostedtoolcache/go/
          
 
