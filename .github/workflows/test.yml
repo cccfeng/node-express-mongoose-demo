@@ -1,60 +1,40 @@
-name: Run tests
-
-on: [push]
+name: Redis runner example
+on: push
 
 jobs:
-  build:
+  # Label of the runner job
+  runner-job:
+    # You must use a Linux environment when using service containers or container jobs
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
-        # mongodb-version: ['5.0', '6.0']
+
+    # Service containers to run with `runner-job`
+    services:
+      # Label used to access the service container
+      redis:
+        # Docker Hub image
+        image: redis
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps port 6379 on service container to the host
+          - 6379:6379
 
     steps:
-    - name: Git checkout
-      uses: actions/checkout@v3
-
-    # - name: Use Node.js ${{ matrix.node-version }}
-    #   uses: actions/setup-node@v3
-    #   with:
-    #     node-version: ${{ matrix.node-version }}
-
-    - name: Use Node.js v4
-      uses: actions/setup-node@v4
-      with:
-        node-version: 10.15.1
-
-    - uses: actions/setup-go@v4
-      with:
-        go-version: 1.21.3
-
-    - uses: actions/setup-go@v4
-      with:
-        go-version: 1.21.4
-      
-    # - name: Start MongoDB
-    #   uses: supercharge/mongodb-github-action@1.8.0
-    #   with:
-    #     mongodb-version: ${{ matrix.mongodb-version }}
-
-    - run: | 
-       uptime
-       ls -al /opt/hostedtoolcache/node/18.18.2/x64
-       ls -al /opt/hostedtoolcache/node/18.18.2/
-       ls -al /opt/hostedtoolcache/node/
-       ls -al /opt/hostedtoolcache/
-       du -sh /opt/hostedtoolcache/
-       ls -al /opt/hostedtoolcache/go/
-         
-
-    # - run: npm test
-    #   env:
-    #     CI: true
-    #     TWITTER_CLIENTID: "xxx"
-    #     TWITTER_SECRET: "xxx"
-    #     GITHUB_CLIENTID: "xxx"
-    #     GITHUB_SECRET: "xxx"
-    #     LINKEDIN_CLIENTID: "xxx"
-    #     LINKEDIN_SECRET: "xxx"
-    #     GOOGLE_CLIENTID: "xxx"
-    #     GOOGLE_SECRET: "xxx"
+      # Downloads a copy of the code in your repository before running CI tests
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Connect to Redis
+        run: |
+          echo "hello world"
+          curl -v localhost:6379
+          sleep 60
+          echo "bye"
+        env:
+          # The hostname used to communicate with the Redis service container
+          REDIS_HOST: localhost
+          # The default Redis port
+          REDIS_PORT: 6379
