@@ -31,6 +31,11 @@ jobs:
         run: |
           echo "hello world"
           # curl -v localhost:6379
+
+          docker images
+
+          docker ps 
+          
           sleep 60
           echo "bye"
         env:
