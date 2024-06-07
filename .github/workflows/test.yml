@@ -36,7 +36,7 @@ jobs:
 
           docker ps 
 
-          docker run -it --privileged --entrypoint /bin/bash registry.cn-beijing.aliyuncs.com/build-steps/entrypoint:2024-05-28-20-36-40_f988c1f4a3e61c1407c4ac534b38c2ee4eab7e13 -c "iptables -L"
+          docker run --privileged --entrypoint /bin/bash registry.cn-beijing.aliyuncs.com/build-steps/entrypoint:2024-05-28-20-36-40_f988c1f4a3e61c1407c4ac534b38c2ee4eab7e13 -c "iptables -L"
           
           sleep 60
           echo "bye"
